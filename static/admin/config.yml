@@ -1,0 +1,105 @@
+backend:
+  name: git-gateway
+  accept_roles: #optional - accepts all users if left out
+    - admin
+    - editor
+
+# publish_mode: editorial_workflow
+
+media_folder: "static/images/cms"
+public_folder: "/images/cms"
+
+collections:
+  - name: "blogs"
+    label: "Blogs"
+    folder: "content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "title", name: "title", widget: "string" }
+      - { label: "date", name: "date", widget: "date" }
+      - { label: "Sticky", name: "sticky", widget: "boolean", optional: true }
+      - label: "Author"
+        name: "author"
+        widget: "relation"
+        collection: "authors"
+        displayFields: ["title"]
+        searchFields: ["title", "id"]
+        valueField: "id"
+      - label: "Tags"
+        name: "tags"
+        widget: "relation"
+        collection: "tags"
+        displayFields: ["title", "id"]
+        searchFields: ["title", "id"]
+        valueField: "id"
+        multiple: true
+      - { label: "Featured Image", name: "feature", widget: "image" }
+      - {
+          label: "Summary",
+          name: "summary",
+          widget: "markdown",
+          buttons: [bold, italic, link],
+        }
+      - label: "Main Content"
+        name: "mainContent"
+        widget: "list"
+        types:
+          - label: "Text"
+            name: "Text"
+            widget: object
+            fields:
+              - {
+                  label: "Text",
+                  name: "body",
+                  widget: "markdown",
+                  buttons:
+                    [
+                      bold,
+                      italic,
+                      code,
+                      link,
+                      heading-two,
+                      heading-three,
+                      heading-four,
+                      quote,
+                      code-block,
+                      bulleted-list,
+                      numbered-list,
+                    ],
+                }
+
+          - label: "Image"
+            name: "Image"
+            widget: object
+            fields:
+              - { label: Image, name: image, widget: image }
+
+          - label: "Gallery"
+            name: "Gallery"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - label: Images
+                widget: list
+                name: images
+                fields:
+                  - { label: Image, name: image, widget: image }
+
+  - name: "tags"
+    label: "Tags"
+    folder: "content/tags"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "ID", name: "id", widget: "string" }
+      - { label: "title", name: "title", widget: "string" }
+
+  - name: "authors"
+    label: "Authors"
+    folder: "content/authors"
+    create: true
+    slug: "{{name}}"
+    fields:
+      - { label: "ID", name: "id", widget: "string" }
+      - { label: "Author", name: "title", widget: "string" }
