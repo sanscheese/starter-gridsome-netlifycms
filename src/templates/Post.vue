@@ -3,7 +3,7 @@
     <div class="vertical-section-padding">
       <div class="article mx-auto article">
         <div class="meta">
-          <p>{{ $page.post.date }}</p>
+          <p>{{ $page.post.date }}</p> Just a test
         </div>
         <div>{{$page.post.content}}</div>
       </div>
